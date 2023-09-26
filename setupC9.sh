@@ -9,11 +9,14 @@ sudo apt install wget git build-essential net-tools libgl1 needrestart -y # pyth
 sudo sed -i "/#\$nrconf{restart} = 'i';/s/.*/\$nrconf{restart} = 'a';/" /etc/needrestart/needrestart.conf
 
 cd /home/ubuntu
+
+echo -e "Clone AUTOMATIC1111 WebUI and set to supported version ..."
 git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
 cd stable-diffusion-webui
 git reset --hard 68f336bd994bed5442ad95bad6b6ad5564a5409a
 
 cd extensions
+echo -e "Add aws related extensions..."
 
 git clone https://github.com/awslabs/stable-diffusion-aws-extension.git
 cd stable-diffusion-aws-extension/
@@ -29,6 +32,7 @@ sudo chown -R ubuntu:ubuntu stable-diffusion-aws-extension/ sd_dreambooth_extens
 cd ..
 cd models/Stable-diffusion/
 
+echo -e "Download models ..."
 # wget -O sd_xl_base_1.0.safetensors https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors             
 wget https://aws-gcr-solutions.s3.amazonaws.com/stable-diffusion-aws-extension-github-mainline/models/LahCuteCartoonSDXL_alpha.safetensors
 
@@ -43,8 +47,9 @@ cd ../..
 pip install httpx==0.22.0
 pip install httpcore==0.14.7
 
-password=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 17 ; echo '')
+echo -e "Configue sd unit service ..."
 
+password=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 17 ; echo '')
 cat > sd.service <<EOF
 [Unit]
 Description=Stable Diffusion UI server
@@ -69,4 +74,6 @@ sudo chown root:root /etc/systemd/system/sd.service
 sudo systemctl daemon-reload
 
 sudo systemctl enable sd.service
+
+echo -e "Start sd service, check log by journalctl -u sd -f ..."
 sudo systemctl start sd.service
