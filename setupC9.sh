@@ -15,13 +15,14 @@ sudo mount -a
 
 echo -e "Clone AUTOMATIC1111 WebUI and set to supported version ..." # -e 选项用于启用转义字符的解析
 # git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
-git clone https://github.com/TipTopBin/stable-diffusion-aws-extension.git
+git clone https://github.com/TipTopBin/stable-diffusion-webui
 cd stable-diffusion-webui
 # git reset --hard 68f336bd994bed5442ad95bad6b6ad5564a5409a
 
 cd extensions
 echo -e "Add aws related extensions..."
-git clone https://github.com/awslabs/stable-diffusion-aws-extension.git
+# git clone https://github.com/awslabs/stable-diffusion-aws-extension.git
+git clone https://github.com/TipTopBin/stable-diffusion-aws-extension.git
 # fix bug 2023-09-28
 git clone https://github.com/pkuliyi2015/multidiffusion-upscaler-for-automatic1111.git
 cd stable-diffusion-aws-extension/
