@@ -21,11 +21,13 @@ git reset --hard 68f336bd994bed5442ad95bad6b6ad5564a5409a
 cd extensions
 echo -e "Add aws related extensions..."
 git clone https://github.com/awslabs/stable-diffusion-aws-extension.git
+# fix bug 2023-09-28
+git clone https://github.com/pkuliyi2015/multidiffusion-upscaler-for-automatic1111.git
 cd stable-diffusion-aws-extension/
 ./pre-flight.sh -f # sync version
 
 echo -e "Get more extensions..."
-cd ../extensions
+cd extensions
 git clone https://github.com/TipTopBin/sd-webui-bilingual-localization
 git clone https://github.com/TipTopBin/stable-diffusion-webui-localization-zh_Hans
 git clone https://github.com/TipTopBin/sd-webui-prompt-all-in-one
