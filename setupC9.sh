@@ -29,7 +29,7 @@ cd stable-diffusion-aws-extension/
 ./pre-flight.sh -f # sync version
 
 echo -e "Get more extensions..."
-cd extensions
+cd ../extensions
 git clone https://github.com/TipTopBin/sd-webui-bilingual-localization
 git clone https://github.com/TipTopBin/stable-diffusion-webui-localization-zh_Hans
 git clone https://github.com/TipTopBin/sd-webui-prompt-all-in-one
