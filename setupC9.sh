@@ -29,7 +29,7 @@ cd stable-diffusion-aws-extension/
 ./pre-flight.sh -f # sync version
 
 echo -e "Get more extensions..."
-cd ../extensions
+cd ..
 git clone https://github.com/TipTopBin/sd-webui-bilingual-localization
 git clone https://github.com/TipTopBin/stable-diffusion-webui-localization-zh_Hans
 git clone https://github.com/TipTopBin/sd-webui-prompt-all-in-one
@@ -37,7 +37,9 @@ git clone https://github.com/TipTopBin/stable-diffusion-webui-images-browser
 git clone https://github.com/butaixianran/Stable-Diffusion-Webui-Civitai-Helper
 
 cd ..
-sudo chown -R ubuntu:ubuntu stable-diffusion-aws-extension/ sd_dreambooth_extension/ sd-webui-controlnet/ ../../stable-diffusion-webui/
+# sudo chown -R ubuntu:ubuntu stable-diffusion-aws-extension/ sd_dreambooth_extension/ sd-webui-controlnet/ ../../stable-diffusion-webui/
+cd ..
+sudo chown -R ubuntu:ubuntu stable-diffusion-webui/
 
 # echo -e "Construct models folder on EFS ..."
 # cd models
