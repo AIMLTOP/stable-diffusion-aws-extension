@@ -14,9 +14,10 @@ cd /home/ubuntu/environment/efs
 sudo mount -a
 
 echo -e "Clone AUTOMATIC1111 WebUI and set to supported version ..." # -e 选项用于启用转义字符的解析
-git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
+# git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
+git clone https://github.com/TipTopBin/stable-diffusion-aws-extension.git
 cd stable-diffusion-webui
-git reset --hard 68f336bd994bed5442ad95bad6b6ad5564a5409a
+# git reset --hard 68f336bd994bed5442ad95bad6b6ad5564a5409a
 
 cd extensions
 echo -e "Add aws related extensions..."
