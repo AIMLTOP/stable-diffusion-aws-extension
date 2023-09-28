@@ -38,15 +38,13 @@ git clone https://github.com/butaixianran/Stable-Diffusion-Webui-Civitai-Helper
 
 cd ..
 # sudo chown -R ubuntu:ubuntu stable-diffusion-aws-extension/ sd_dreambooth_extension/ sd-webui-controlnet/ ../../stable-diffusion-webui/
-cd ..
-sudo chown -R ubuntu:ubuntu stable-diffusion-webui/
+sudo chown -R ubuntu:ubuntu ../stable-diffusion-webui/
 
 # echo -e "Construct models folder on EFS ..."
 # cd models
 # find . -type d -exec mkdir -p /home/ubuntu/environment/efs/sd-webui/{} \;
 
 echo -e "Download models ..."
-cd ..
 cd models/Stable-diffusion/
 wget -O sd_xl_base_1.0.safetensors https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors             
 #wget https://aws-gcr-solutions.s3.amazonaws.com/stable-diffusion-aws-extension-github-mainline/models/LahCuteCartoonSDXL_alpha.safetensors
