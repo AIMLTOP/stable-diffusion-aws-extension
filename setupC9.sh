@@ -86,7 +86,7 @@ sudo mv sd.service /etc/systemd/system
 sudo chown root:root /etc/systemd/system/sd.service
 sudo systemctl daemon-reload
 sudo systemctl enable sd.service
-sudo chown -R ubuntu:ubuntu /home/ubuntu/environment/efs/
+sudo chown -R ubuntu:ubuntu /home/ubuntu/environment/efs/stable-diffusion-webui/
 
 echo -e "Start sd service, check log by journalctl -u sd -f ..."
 sudo systemctl start sd.service
