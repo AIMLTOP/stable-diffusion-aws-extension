@@ -12,6 +12,7 @@ sudo sed -i "/#\$nrconf{restart} = 'i';/s/.*/\$nrconf{restart} = 'a';/" /etc/nee
 mkdir -p /home/ubuntu/environment/efs
 cd /home/ubuntu/environment/efs
 sudo mount -a
+sudo chown -R ubuntu:ubuntu /home/ubuntu/environment/efs*
 
 echo -e "Clone AUTOMATIC1111 WebUI and set to supported version ..." # -e 选项用于启用转义字符的解析
 # git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
