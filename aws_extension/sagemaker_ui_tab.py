@@ -15,6 +15,7 @@ from modules.ui_common import create_refresh_button
 from modules.ui_components import FormRow
 import modules.ui
 from utils import get_variable_from_json, save_variable_to_json
+import datetime
 
 logger = logging.getLogger(__name__)
 logger.setLevel(utils.LOGGING_LEVEL)
@@ -296,7 +297,7 @@ def _list_models(username, user_token):
         if model['allowed_roles_or_users']:
             allowed = ', '.join(model['allowed_roles_or_users'])
         models.append([model['name'], model['type'], allowed,
-                       'In-Use' if model['status'] == 'Active' else 'Disabled'])
+                       'In-Use' if model['status'] == 'Active' else 'Disabled', datetime.datetime.fromtimestamp(model['created'])])
     return models
 
 
@@ -452,8 +453,8 @@ def model_upload_tab():
 
         current_page = gr.State(0)
         gr.HTML(value="<b>Cloud Model List</b>")
-        model_list_df = gr.Dataframe(headers=['name', 'type', 'user and roles belongs to', 'status'],
-                                     datatype=['str', 'str', 'str', 'str']
+        model_list_df = gr.Dataframe(headers=['name', 'type', 'user/roles', 'status', 'time'],
+                                     datatype=['str', 'str', 'str', 'str', 'str']
                                      )
         with gr.Row():
             model_list_prev_btn = gr.Button(value='Previous')
@@ -499,7 +500,7 @@ def sagemaker_endpoint_tab():
                 label="Advanced Endpoint Configuration", value=False, visible=True
             )
             with gr.Row(visible=False) as filter_row:
-                endpoint_name_textbox = gr.Textbox(value="", lines=1, placeholder="custome endpoint name ",
+                endpoint_name_textbox = gr.Textbox(value="", lines=1, placeholder="custom endpoint name",
                                                    label="Specify Endpoint Name", visible=True)
                 instance_type_dropdown = gr.Dropdown(label="Instance Type", choices=async_inference_choices,
                                                      elem_id="sagemaker_inference_instance_type_textbox",
