@@ -16,7 +16,7 @@ RUN git clone https://github.com/TipTopBin/stable-diffusion-webui $SD_HOME/stabl
 
 RUN echo -e "Setup aws related extensions ..."
 RUN git clone https://github.com/TipTopBin/stable-diffusion-aws-extension.git $SD_HOME/stable-diffusion-webui/extensions/stable-diffusion-aws-extension
-RUN cd $SD_HOME/stable-diffusion-webui/extensions/stable-diffusion-aws-extension && ./pre-flight.sh -f
+RUN cd $SD_HOME/stable-diffusion-webui/extensions/stable-diffusion-aws-extension && ./r_pre-flight.sh -f
 
 RUN echo -e "Get more extensions..."
 RUN git clone https://github.com/TipTopBin/sd-webui-bilingual-localization $SD_HOME/stable-diffusion-webui/extensions/sd-webui-bilingual-localization
