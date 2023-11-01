@@ -195,6 +195,8 @@ version_sync() {
     git reset --hard ${INITIAL_SUPPORT_COMMIT_SAM}
     cd ..
 
+    # Clone multidiffusion-upscaler
+    git clone https://github.com/pkuliyi2015/multidiffusion-upscaler-for-automatic1111.git
     # Go to multidiffusion-upscaler-for-automatic1111 directory and reset to specific commit
     cd multidiffusion-upscaler-for-automatic1111
     git reset --hard ${INITIAL_SUPPORT_COMMIT_TILEDVAE}
