@@ -1,0 +1,11 @@
+FROM 763104351884.dkr.ecr.us-east-1.amazonaws.com/pytorch-inference:2.0.1-gpu-py310-cu118-ubuntu20.04-ec2 as base
+WORKDIR /sd-webui
+#RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
+RUN git clone https://github.com/TipTopBin/stable-diffusion-webui
+WORKDIR stable-diffusion-webui/
+RUN sed -i 's/can_run_as_root=0/can_run_as_root=1/' webui.sh
+RUN sed -i 's/use_venv=1/use_venv=0/' webui.sh
+# RUN wget https://civitai.com/api/download/models/107472 -O models/Stable-diffusion/AWPainting.safetensors
+RUN wget https://civitai.com/api/download/models/130072 -O models/Stable-diffusion/Realistic.safetensors
+# RUN wget https://civitai.com/api/download/models/117986 -O models/Stable-diffusion/Samaritan.safetensors
+RUN ./webui.sh
