@@ -7,63 +7,48 @@ sudo apt install software-properties-common -y
 sudo add-apt-repository ppa:deadsnakes/ppa -y
 sudo apt install wget git build-essential net-tools libgl1 needrestart -y # python3 python3.8-venv python3.10 python3.10-venv
 sudo sed -i "/#\$nrconf{restart} = 'i';/s/.*/\$nrconf{restart} = 'a';/" /etc/needrestart/needrestart.conf
+# sudo -u ubuntu python3 -m venv venv
+# source venv/bin/activate
+# pip install httpx==0.22.0 # 0.24.1
+# pip install httpcore==0.14.7
 
-# cd /home/ubuntu
-# mkdir -p /home/ubuntu/environment
-cd /home/ubuntu/environment
+WORK_HOME=/home/ubuntu/environment
+mkdir -p ${WORK_HOME}
+cd ${WORK_HOME}
 sudo mount -a
-sudo chown -R ubuntu:ubuntu /home/ubuntu/environment/*
+sudo chown -R ubuntu:ubuntu ${WORK_HOME}/*
 
 echo -e "Clone AUTOMATIC1111 WebUI and set to supported version ..." # -e 选项用于启用转义字符的解析
 # git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
-git clone https://github.com/TipTopBin/stable-diffusion-webui
-cd stable-diffusion-webui
-# git reset --hard 68f336bd994bed5442ad95bad6b6ad5564a5409a
+git clone https://github.com/TipTopBin/stable-diffusion-webui $WORK_HOME/stable-diffusion-webui
 
-cd extensions
 echo -e "Add aws related extensions..."
-# git clone https://github.com/awslabs/stable-diffusion-aws-extension.git
-git clone https://github.com/TipTopBin/stable-diffusion-aws-extension.git
-# fix bug 2023-09-28
-git clone https://github.com/pkuliyi2015/multidiffusion-upscaler-for-automatic1111.git
-cd stable-diffusion-aws-extension/
-./pre-flight.sh -f # sync version
+git clone https://github.com/TipTopBin/stable-diffusion-aws-extension.git $WORK_HOME/stable-diffusion-webui/extensions/stable-diffusion-aws-extension
+
+cd $WORK_HOME/stable-diffusion-webui/extensions/stable-diffusion-aws-extension
+./r_pre-flight.sh -f # sync version
 
 echo -e "Get more extensions..."
-cd ..
-git clone https://github.com/TipTopBin/sd-webui-bilingual-localization
-git clone https://github.com/TipTopBin/stable-diffusion-webui-localization-zh_Hans
-git clone https://github.com/TipTopBin/sd-webui-prompt-all-in-one
-git clone https://github.com/TipTopBin/stable-diffusion-webui-images-browser
-git clone https://github.com/butaixianran/Stable-Diffusion-Webui-Civitai-Helper
+git clone https://github.com/TipTopBin/sd-webui-bilingual-localization $WORK_HOME/stable-diffusion-webui/extensions/sd-webui-bilingual-localization
+git clone https://github.com/TipTopBin/stable-diffusion-webui-localization-zh_Hans $WORK_HOME/stable-diffusion-webui/extensions/stable-diffusion-webui-localization-zh_Hans
+git clone https://github.com/TipTopBin/sd-webui-prompt-all-in-one $WORK_HOME/stable-diffusion-webui/extensions/sd-webui-prompt-all-in-one
+git clone https://github.com/TipTopBin/stable-diffusion-webui-images-browser $WORK_HOME/stable-diffusion-webui/extensions/stable-diffusion-webui-images-browser
 
-cd ..
-# sudo chown -R ubuntu:ubuntu stable-diffusion-aws-extension/ sd_dreambooth_extension/ sd-webui-controlnet/ ../../stable-diffusion-webui/
-sudo chown -R ubuntu:ubuntu ../stable-diffusion-webui/
-
-# echo -e "Construct models folder ..."
-# cd models
-# find . -type d -exec mkdir -p /home/ubuntu/environment/sd-webui/{} \;
+sudo chown -R ubuntu:ubuntu ${WORK_HOME}/*
 
 echo -e "Download models ..."
-cd models/Stable-diffusion/
-wget -O sd_xl_base_1.0.safetensors https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors             
+wget -P ${WORK_HOME}/stable-diffusion-webui/models/Stable-diffusion https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
 #wget https://aws-gcr-solutions.s3.amazonaws.com/stable-diffusion-aws-extension-github-mainline/models/LahCuteCartoonSDXL_alpha.safetensors
+wget -P ${WORK_HOME}/stable-diffusion-webui/models/ControlNet https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_canny.pth
+wget -P ${WORK_HOME}/stable-diffusion-webui/models/ControlNet https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_openpose.pth
 
-sudo mkdir ../Lora
-sudo chown -R ubuntu:ubuntu ../Lora            
-cd ../Lora
-# wget https://aws-gcr-solutions.s3.amazonaws.com/stable-diffusion-aws-extension-github-mainline/models/nendoroid_xl_v7.safetensors
-cd ../..
 
-# sudo -u ubuntu python3 -m venv venv
-# source venv/bin/activate
-pip install httpx==0.22.0
-pip install httpcore==0.14.7
+sudo mkdir $WORK_HOME/stable-diffusion-webui/models/Lora
+sudo chown -R ubuntu:ubuntu $WORK_HOME/stable-diffusion-webui/models/Lora           
+wget -P ${WORK_HOME}/stable-diffusion-webui/models/Lora https://aws-gcr-solutions.s3.amazonaws.com/stable-diffusion-aws-extension-github-mainline/models/nendoroid_xl_v7.safetensors
 
 echo -e "Configue sd-webui unit service ..."
-
-# password=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 17 ; echo '')
+# 如果不是 /home/ubuntu/environment，请手动对齐 WORK HOME
 cat > sd-webui.service <<EOF
 [Unit]
 Description=Stable Diffusion UI server
@@ -83,11 +68,14 @@ StartLimitAction=reboot
 WantedBy=default.target
 
 EOF
+
 sudo mv sd-webui.service /etc/systemd/system
 sudo chown root:root /etc/systemd/system/sd-webui.service
 sudo systemctl daemon-reload
+sudo systemctl start sd-webui.service
 sudo systemctl enable sd-webui.service
-sudo chown -R ubuntu:ubuntu /home/ubuntu/environment/stable-diffusion-webui/
+
+sudo chown -R ubuntu:ubuntu ${WORK_HOME}/stable-diffusion-webui/
 
 echo -e "Start sd-webui service, check log by journalctl -u sd-webui -f ..."
 sudo systemctl start sd-webui.service
