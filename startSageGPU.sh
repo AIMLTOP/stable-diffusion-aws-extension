@@ -31,7 +31,7 @@ wget -O $SD_HOME/sd-webui/models/Stable-diffusion/sd_xl_base_1.0.safetensors htt
 # wget https://aws-gcr-solutions.s3.amazonaws.com/stable-diffusion-aws-extension-github-mainline/models/nendoroid_xl_v7.safetensors
 #wget https://aws-gcr-solutions.s3.amazonaws.com/stable-diffusion-aws-extension-github-mainline/models/LahCuteCartoonSDXL_alpha.safetensors
 
-sudo chown -R ec2-user:ec2-user $SD_HOME/stable-diffusion-webui/
+sudo chown -R ec2-user:ec2-user $SD_HOME/
 
 echo -e "Start sd service ..."
 SD_PWD=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 17 ; echo '')
