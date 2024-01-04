@@ -2,7 +2,8 @@
 
 # Usage: ./pre-flight_check.sh -p to do the pre-flight check for WebUI -s to auto sync the repo and plugin to compatible commit id
 
-INITIAL_SUPPORT_COMMIT_AWS=d50c25dca970df7e663cea0e348ab35109011ac7
+# INITIAL_SUPPORT_COMMIT_AWS=d50c25dca970df7e663cea0e348ab35109011ac7
+INITIAL_SUPPORT_COMMIT_AWS=""
 INITIAL_SUPPORT_COMMIT_ROOT=bda2ecdbf58fd33b4ad3036ed5cc13eef02747ae
 INITIAL_SUPPORT_COMMIT_CONTROLNET=e67e017731aad05796b9615dc6eadce911298ea1
 INITIAL_SUPPORT_COMMIT_DREAMBOOTH=c2a5617c587b812b5a408143ddfb18fc49234edf
@@ -157,7 +158,10 @@ version_sync() {
     # Checkout aigc branch
     cd stable-diffusion-aws-extension
     git pull
-    git reset --hard ${INITIAL_SUPPORT_COMMIT_AWS}
+    if [ ! -z $INITIAL_SUPPORT_COMMIT_AWS ];
+    then
+      git reset --hard ${INITIAL_SUPPORT_COMMIT_AWS}
+    fi
     cd ..
 
     # Clone sd-webui-controlnet if not exist
