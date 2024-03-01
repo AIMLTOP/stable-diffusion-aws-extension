@@ -39,6 +39,8 @@ echo "export SD_HOME=\"$SD_HOME\"" >> ~/SageMaker/custom/bashrc
 echo "export SD_PWD=\"$SD_PWD\"" >> ~/SageMaker/custom/bashrc
 source ~/.bashrc
 cd $SD_HOME/sd-webui # WorkingDirectory 注意一定要进入到这个目录 
-nohup $SD_HOME/sd-webui/webui.sh --gradio-auth admin:${SD_PWD} --cors-allow-origins=* --enable-insecure-extension-access --allow-code --medvram --xformers --listen --port 8760 > $SD_HOME/sd.log 2>&1 & # execute asynchronously
+# nohup $SD_HOME/sd-webui/webui.sh --gradio-auth admin:${SD_PWD} --cors-allow-origins=* --enable-insecure-extension-access --allow-code --medvram --xformers --listen --port 8760 > $SD_HOME/sd.log 2>&1 & # execute asynchronously
+$SD_HOME/sd-webui/webui.sh --gradio-auth admin:${SD_PWD} --cors-allow-origins=* --enable-insecure-extension-access --allow-code --medvram --xformers --listen --port 8760
+
 # cd ~/SageMaker/awesome/do/sd-aws-extension/stable-diffusion-webui
 # ./webui.sh --enable-insecure-extension-access --port 8760 --allow-code --medvram --xformers --subpath proxy/8760/ --listen
